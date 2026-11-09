@@ -1,8 +1,9 @@
 const http = require('node:http');
 const fs = require('node:fs');
 const path = require('node:path');
+const os = require('node:os');
 
-const preferredPort = Number(process.env.PORT || 4173);
+const preferredPort = Number(process.env.PORT || 5174);
 const root = path.join(__dirname, 'public');
 let activity = [
   { icon: '✓', title: 'Workspace paired', detail: 'orbit-api • a moment ago', tone: 'success' },
@@ -45,17 +46,26 @@ const server = http.createServer((req, res) => {
   return json(res, 404, { error: 'Not found' });
 });
 
-function start(port, fallbackAllowed) {
+function phoneAddresses(port) {
+  return Object.values(os.networkInterfaces()).flat().filter(address =>
+    address && address.family === 'IPv4' && !address.internal
+  ).map(address => `http://${address.address}:${port}`);
+}
+
+function start(port) {
   server.once('error', error => {
-    if (error.code === 'EADDRINUSE' && fallbackAllowed) {
+    if (error.code === 'EADDRINUSE' && port < preferredPort + 10) {
       console.log(`Port ${port} is already in use. Starting Pocket Pilot on ${port + 1} instead.`);
-      start(port + 1, false);
+      start(port + 1);
       return;
     }
     console.error(`Could not start Pocket Pilot on port ${port}: ${error.message}`);
     process.exitCode = 1;
   });
-  server.listen(port, '0.0.0.0', () => console.log(`Pocket Pilot ready at http://0.0.0.0:${port}`));
+  server.listen(port, '0.0.0.0', () => {
+    console.log(`Pocket Pilot ready on this computer: http://localhost:${port}`);
+    console.log(`Open on your phone (same Wi-Fi): ${phoneAddresses(port).join(' or ') || 'No Wi-Fi address found'}`);
+  });
 }
 
-start(preferredPort, !process.env.PORT);
+start(preferredPort);

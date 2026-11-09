@@ -8,7 +8,7 @@ A phone-first VS Code companion prototype. The included demo simulates a paired 
 npm start
 ```
 
-Then, with phone and computer on the same Wi-Fi, open the address printed in the terminal (for example, `http://<your-computer-LAN-IP>:4173`) on the phone. The server listens on all local network interfaces. If port 4173 is occupied, it automatically uses 4174 instead.
+Then, with phone and computer on the same Wi-Fi, open the phone address printed in the terminal (for example, `http://192.168.1.2:5174`). Do not use `localhost` on the phone: it refers to the phone itself. The server listens on all local network interfaces and automatically tries the next ten ports if its default is occupied.
 
 ## Architecture selected
 
