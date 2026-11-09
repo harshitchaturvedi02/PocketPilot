@@ -1,0 +1,10 @@
+{
+  "name": "pocket-pilot-bridge",
+  "displayName": "Pocket Pilot Bridge",
+  "version": "0.1.0",
+  "engines": { "vscode": "^1.85.0" },
+  "categories": ["Other"],
+  "activationEvents": ["onCommand:pocketPilot.startBridge"],
+  "main": "./extension.js",
+  "contributes": { "commands": [{ "command": "pocketPilot.startBridge", "title": "Pocket Pilot: Start Phone Bridge" }] }
+}

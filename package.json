@@ -1,0 +1,10 @@
+{
+  "name": "pocket-pilot",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A phone-first companion for VS Code",
+  "scripts": {
+    "start": "node server.js",
+    "demo": "node server.js"
+  }
+}
